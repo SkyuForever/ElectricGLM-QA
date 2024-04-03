@@ -76,7 +76,7 @@ $ python predict.py
 
 感兴趣的话可以选择调用其他的开源 LLM 和 Embedding 模型，更大的模型效果往往更突出，例如Baichuan2-13B、Qwen1.5-14B。
 
-以上改进建议供大家参考，欢迎大家尝试和改进提升，分享成果。
+以上改进建议供大家参考，欢迎大家尝试和改进提升，分享经验和成果。
 
 ## 参考项目
 [Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat)
