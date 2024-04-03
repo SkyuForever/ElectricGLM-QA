@@ -23,6 +23,7 @@
 ├── requirements.txt
 └── README.md
 ```
+其中 document_loaders 和 testsplitter 来自项目[Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat)
 
 ### 2.2 代码文件说明
 
