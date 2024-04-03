@@ -44,7 +44,7 @@
 * python == 3.10.12
 ```
 # 1. 安装依赖
-> pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ### 3.2模型下载
@@ -61,13 +61,13 @@ $ git clone https://huggingface.co/moka-ai/m3e-base
 ### 3.3运行步骤
 ```
 # 1. 运行setup.py文件，对question.json文件格式进行调整
-> python setup.py
+$ python setup.py
 
 # 2. 运行test.py文件，对调整后的问答数据集
-> python test.py
+$ python test.py
 
 # 3. 运行predict.py文件，将生成的结果文件格式调整为json格式
-> python predict.py
+$ python predict.py
 ```
 
 ## 4.结果与改进
