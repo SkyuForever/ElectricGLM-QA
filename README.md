@@ -79,4 +79,4 @@ $ python predict.py
 以上改进建议供大家参考，欢迎大家尝试和改进提升，分享成果。
 
 ## 参考项目
-https://github.com/chatchat-space/Langchain-Chatchat
+[Langchain-Chatchat](https://github.com/chatchat-space/Langchain-Chatchat)
