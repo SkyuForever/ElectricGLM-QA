@@ -12,29 +12,17 @@ from langchain.vectorstores import FAISS
 from textsplitter import ChineseTextSplitter
 from langchain.document_loaders import PyPDFLoader
 
-folder_path = 'electric/knowledge_all'#知识库路径
+folder_path = 'knowledge'#知识库路径
 file_names = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
 filepaths = [os.path.join(folder_path, f) for f in file_names]
-# filepath = ','.join(filepaths)
-# filepath = filepath.split(",")
 docs=[]
 
 for file in filepaths:
     if file.lower().endswith(".md"):
         loader = UnstructuredFileLoader(file, mode="elements")
         docs += loader.load()
-    # elif file.lower().endswith(".pdf"):
-    #     from document_loaders import RapidOCRPDFLoader
-    #     loader = RapidOCRPDFLoader(file)
-    #     # loader = PyPDFLoader(file)
-    #     # loader = UnstructuredPDFLoader(file,mode='elements')
-    #     textsplitter = ChineseTextSplitter(pdf=True, sentence_size=100)
-    #     docs += loader.load_and_split(textsplitter)
-    # else:
-    #     loader = UnstructuredFileLoader(file, mode="elements")
-    #     textsplitter = ChineseTextSplitter(pdf=False, sentence_size=100)
-    #     docs += loader.load_and_split(text_splitter=textsplitter)
-embeddings=SentenceTransformerEmbeddings(model_name="electric/M3e")#embedding模型路径
+        
+embeddings=SentenceTransformerEmbeddings(model_name="M3e")#embedding模型路径
 vector_stroe=FAISS.from_documents(docs,embeddings)
 
 tokenizer = AutoTokenizer.from_pretrained("ChatGLM2-6b", trust_remote_code=True)
@@ -42,11 +30,6 @@ model = AutoModel.from_pretrained("ChatGLM2-6b", trust_remote_code=True).bfloat1
 
 choices = ["A", "B", "C", "D"]
 choice_tokens = [tokenizer.encode(choice, add_special_tokens=False)[0] for choice in choices]
-
-# choices1 = ["A", "B", "C", "D","E","F","G","H","I","J","K","L","M","N","O"]
-# choice_tokens1 = [tokenizer.encode(choice, add_special_tokens=False)[0] for choice in choices1]
-choices1 = ["A", "B","C","D"]
-choice_tokens1 = [tokenizer.encode(choice, add_special_tokens=False)[0] for choice in choices1]
 
 def build_prompt(doc,text):
     return "[Round {}]\n\n基于以下已知信息，简洁和专业的来回答用户的问题。不允许在答案中添加编造成分。\n\n已知信息：{}\n\n问：{}\n\n答：".format(1, doc, text)
@@ -81,16 +64,7 @@ with torch.no_grad():
             queries = [build_prompt(doc,query) for doc,query in zip(context,texts)]
             inputs = tokenizer(queries, padding=True, return_tensors="pt", truncation=True, max_length=2048).to('cuda')
             outputs = model.generate(**inputs, do_sample=False, max_new_tokens=512,num_beams=3,repetition_penalty=0.8,num_beam_groups=3,diversity_penalty=0.8)
-            
-            # for query in queries:
-            #     inputs = tokenizer([query], return_tensors="pt")
-            #     inputs = inputs.to(model.device)
-            #     outputs= model.generate(**inputs,max_new_tokens=512,return_dict_in_generate=True, output_scores=True, **gen_kwargs)
-            #     score = outputs.scores[0][0].tolist()
-            #     choice_score = [score[167], score[333], score[251], score[416]]
-            #     ranked_index = [index for index, value in sorted(list(enumerate(choice_score)), key=lambda x:x[1], reverse=True)]
-            #     answer1.append(choices[ranked_index[0]])
-            
+
             intermediate_outputs = []
             for idx in range(len(outputs)):
                 output = outputs.tolist()[idx][len(inputs["input_ids"][idx]):]
@@ -107,32 +81,6 @@ with torch.no_grad():
             for i in preds.cpu():
                 answer.append(choices[i])
             
-        # extraction_prompt = '综上所述，ABCDEFGHIJKLMNO中正确的选项是：'
-        # dataloader2 = torch.utils.data.DataLoader(dataset2, batch_size=4)
-        # for batch in tqdm(dataloader2):    
-        #     # 处理多选题的逻辑
-        #     texts = batch["inputs_pretokenized"]
-        #     queries = [build_prompt(query) for query in texts]
-        #     inputs = tokenizer(queries, padding=True, return_tensors="pt", truncation=True, max_length=2048).to('cuda')
-        #     outputs = model.generate(**inputs, do_sample=True, max_new_tokens=512,num_beams=5)
-        #     intermediate_outputs = []
-        #     for idx in range(len(outputs)):
-        #         output = outputs.tolist()[idx][len(inputs["input_ids"][idx]):]
-        #         response = tokenizer.decode(output)
-        #         intermediate_outputs.append(response)
-                
-        #     answer_texts = [text + intermediate + "\n" + extraction_prompt for text, intermediate in
-        #                     zip(texts, intermediate_outputs)]
-            
-        #     input_tokens = [build_prompt(answer_text) for answer_text in answer_texts]
-        #     inputs = tokenizer(input_tokens, padding=True, return_tensors="pt", truncation=True, max_length=2048).to('cuda')
-        #     outputs = model(**inputs, return_last_logit=True)
-        #     logits = outputs.logits[:, -1]
-        #     logits = logits[:, choice_tokens1]
-        #     preds = logits.argmax(dim=-1)
-        #     for i in preds.cpu():
-        #         answer.append(choices1[i])
-        #         print(choices1[i])
         
         extraction_prompt = '综上所述，ABCD中正确的选项是：'
         dataloader2 = torch.utils.data.DataLoader(dataset2, batch_size=8)
@@ -148,23 +96,6 @@ with torch.no_grad():
             inputs = tokenizer(queries, padding=True, return_tensors="pt", truncation=True, max_length=2048).to('cuda')
             outputs = model.generate(**inputs, do_sample=False, max_new_tokens=512,num_beams=3,repetition_penalty=0.8,num_beam_groups=3,diversity_penalty=0.8)
             
-            # s1=''
-            # time1=0
-            # for query in queries:
-            #     inputs = tokenizer([query], return_tensors="pt")
-            #     inputs = inputs.to(model.device)
-            #     outputs= model.generate(**inputs,max_new_tokens=512,return_dict_in_generate=True, output_scores=True, **gen_kwargs)
-            #     score = outputs.scores[0][0].tolist()
-            #     choice_score = [score[167], score[333], score[251], score[416]]
-            #     ranked_index = [index for index, value in sorted(list(enumerate(choice_score)), key=lambda x:x[1], reverse=True)]
-            #     if choices[ranked_index[0]]=='A':
-            #         s1+=chr(time+ord('A'))
-            #     time1+=1
-            #     if (time1==4):
-            #         answer1.append('、'.join(s))
-            #         s1=''
-            #         time1=0
-
             intermediate_outputs = []
             for idx in range(len(outputs)):
                 output = outputs.tolist()[idx][len(inputs["input_ids"][idx]):]
@@ -183,7 +114,7 @@ with torch.no_grad():
             s=''
             time=0
             for i in preds.cpu():
-                if choices1[i]=='A':
+                if choices[i]=='A':
                     s+=chr(time+ord('A'))
                 time+=1
                 if (time==4):
