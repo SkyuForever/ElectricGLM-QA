@@ -15,19 +15,14 @@
 
 ### 2.1 代码文件结构
 ```
-├── electric
-│   ├── test.py
-│   ├── setup.py
-│   ├── predict.py
-│   ├── knowledge_all
-│   ├── M3e
-│   ├── knowledge_base
-│   ├── document_loaders
-│   ├── testsplitter
-│   ├── question.json
-│   ├── requirements.txt
-│   └── dataset
-├── ChatGLM2-6b
+├── document_loaders
+├── knowledge
+├── testsplitter
+├── test.py
+├── setup.py
+├── predict.py
+├── question.json
+├── requirements.txt
 └── README.md
 ```
 
@@ -58,7 +53,7 @@
 ### 3.2运行步骤
 ```
 # 1. 运行setup.py文件，对question.json文件格式进行调整
-> python electric/setup.py
+> python setup.py
 
 # 2. 运行test.py文件，对调整后的问答数据集
 > python test.py
