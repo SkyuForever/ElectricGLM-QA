@@ -3,7 +3,7 @@
 
 [竞赛链接](http://bdc.saikr.com/vse/48006)
 
-利用ChatGLM2-6b实现电力领域的QA，其中knowledge_all中的文件均是从网上搜集和赛方提供
+利用ChatGLM2-6b实现电力领域的QA，其中knowledge中的文件均是从网上搜集和赛方提供，其中题库占大部分，主要来自百度题库。
 
 ------
 
