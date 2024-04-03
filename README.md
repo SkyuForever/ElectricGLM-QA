@@ -46,15 +46,18 @@
 # 1. 安装依赖
 > pip install -r requirements.txt
 ```
+
 ### 3.2模型下载
 如需在本地或离线环境下运行本项目，需要首先将项目所需的模型下载至本地，通常开源 LLM 与 Embedding 模型可以从 HuggingFace 下载。
-以本项目中默认使用的 LLM 模型 [THUDM/ChatGLM2-6B](https://huggingface.co/THUDM/chatglm2-6b) 与 Embedding 模型 [BAAI/bge-large-zh](https://huggingface.co/moka-ai/m3e-base) 为例：
+以本项目中默认使用的 LLM 模型 [THUDM/ChatGLM2-6B](https://huggingface.co/THUDM/chatglm2-6b) 与 Embedding 模型 [moka-ai/m3e-base](https://huggingface.co/moka-ai/m3e-base) 为例：
+
 下载模型需要先安装 Git LFS ，然后运行:
 ```
 $ git lfs install
 $ git clone https://huggingface.co/THUDM/chatglm3-6b
 $ git clone https://huggingface.co/BAAI/bge-large-zh
 ```
+
 ### 3.3运行步骤
 ```
 # 1. 运行setup.py文件，对question.json文件格式进行调整
