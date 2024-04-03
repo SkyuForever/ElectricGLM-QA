@@ -1,6 +1,6 @@
 import json
 data_item=[]
-with open('electric/output.jsonl','r',encoding='utf8') as file:
+with open('output.jsonl','r',encoding='utf8') as file:
     for line in file:
         data_item.append(json.loads(line))
 
@@ -14,5 +14,5 @@ for data in data_item:
     }
     output.append(json_data)
 
-with open('electric/_result.json','w',encoding='utf8') as output_file:
+with open('_result.json','w',encoding='utf8') as output_file:
     json.dump(output,output_file,ensure_ascii=False,indent=2)
