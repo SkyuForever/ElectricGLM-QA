@@ -1,11 +1,11 @@
 import json
 
 # 假设你有多个数据，存储在一个列表中
-with open('electric/question.json','r',encoding='utf8') as file:
+with open('question.json','r',encoding='utf8') as file:
     data_list=json.load(file)
 
 # 将数据写入JSON Lines文件
-with open('electric/question.jsonl', 'w',encoding='utf8',) as file:
+with open('question.jsonl', 'w',encoding='utf8',) as file:
     for data in data_list:
         question_text = data["question"]
         
