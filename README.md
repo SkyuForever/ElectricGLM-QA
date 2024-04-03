@@ -28,14 +28,11 @@
 
 ### 2.2 代码文件说明
 
-1、 electric部分  
 ``` 
 * test.py                       模型QA文件   
 * setup.py                      数据格式转换文件   
-* predict.py                    提交文件转换文件    
-* M3e 文件夹                     分词模型
-* knowledge_all 文件夹           使用的知识库
-* knowledge_base 文件夹          部分知识库
+* predict.py                    结果文件转换文件    
+* knowledge                     使用的知识库
 * requirements.txt              运行环境要求    
 * question.json                 进行QA问答的数据集          
 ```
@@ -49,8 +46,16 @@
 # 1. 安装依赖
 > pip install -r requirements.txt
 ```
-
-### 3.2运行步骤
+### 3.2模型下载
+如需在本地或离线环境下运行本项目，需要首先将项目所需的模型下载至本地，通常开源 LLM 与 Embedding 模型可以从 HuggingFace 下载。
+以本项目中默认使用的 LLM 模型 [THUDM/ChatGLM2-6B](https://huggingface.co/THUDM/chatglm2-6b) 与 Embedding 模型 [BAAI/bge-large-zh](https://huggingface.co/moka-ai/m3e-base) 为例：
+下载模型需要先安装 Git LFS ，然后运行:
+```
+$ git lfs install
+$ git clone https://huggingface.co/THUDM/chatglm3-6b
+$ git clone https://huggingface.co/BAAI/bge-large-zh
+```
+### 3.3运行步骤
 ```
 # 1. 运行setup.py文件，对question.json文件格式进行调整
 > python setup.py
@@ -64,11 +69,5 @@
 
 ## 4.结果
 
-<div align=center>
-
-| 提交批次 | 得分 |
-| :----:| :----: |
-| 1 | 35.269 |
-| 2 | 35.269 |
-
-</div>
+## 参考项目
+https://github.com/chatchat-space/Langchain-Chatchat
