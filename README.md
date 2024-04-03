@@ -55,7 +55,7 @@
 ```
 $ git lfs install
 $ git clone https://huggingface.co/THUDM/chatglm3-6b
-$ git clone https://huggingface.co/BAAI/bge-large-zh
+$ git clone https://huggingface.co/moka-ai/m3e-base
 ```
 
 ### 3.3运行步骤
@@ -70,7 +70,14 @@ $ git clone https://huggingface.co/BAAI/bge-large-zh
 > python predict.py
 ```
 
-## 4.结果
+## 4.结果与改进
+模型性能特别依赖数据集质量，其中题库是提高性能的key point，其中我们的数据集文件在格式转化的过程中存在一点问题（缺少了部分单选题以及大量的多选题和问答题的数据，最终止步于赛区二等奖），因此可以在后期进行额外补充。
+
+根据其他队伍的经验和信息，对模型进行预训练，其效果并不显著，不过可以考虑PEFT和RAG结合的方法提高模型性能，其中PEFT可以尝试LoRA、P-Tuning和QLoRA等微调方法，这也是大部分取得不错结果的队伍采用的策略。
+
+感兴趣的话可以选择调用其他的开源 LLM 和 Embedding 模型，更大的模型效果往往更突出，例如Baichuan2-13B、Qwen1.5-14B。
+
+以上改进建议供大家参考，欢迎大家尝试和改进提升，分享成果。
 
 ## 参考项目
 https://github.com/chatchat-space/Langchain-Chatchat
