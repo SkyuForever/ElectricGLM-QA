@@ -14,5 +14,5 @@ for data in data_item:
     }
     output.append(json_data)
 
-with open('_result.json','w',encoding='utf8') as output_file:
+with open('result.json','w',encoding='utf8') as output_file:
     json.dump(output,output_file,ensure_ascii=False,indent=2)
